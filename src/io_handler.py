@@ -16,6 +16,36 @@ def load_holidays(xls: ExcelInput) -> Set[date]:
         print(f"Note: No 'Holidays' sheet found or error reading it: {e}")
         return set()
 
+def parse_dates(cell) -> Set[date]:
+    # 1. Handle actual Nulls
+    if pd.isna(cell):
+        return set()
+
+    # 2. Convert to string and clean it
+    cell_str = str(cell).strip()
+    if not cell_str or cell_str.lower() == "nan":
+        return set()
+
+    found_dates = set()
+    
+    # 3. Split by common separators (comma, semicolon, or even newline)
+    # We replace everything with a comma first, then split
+    raw_items = cell_str.replace(';', ',').replace('\n', ',').split(',')
+
+    for item in raw_items:
+        clean_item = item.strip()
+        if not clean_item:
+            continue
+            
+        try:
+            # The 'fuzzy' logic handles weird spaces or formats automatically
+            dt = parser.parse(clean_item, fuzzy=False)
+            found_dates.add(dt.date())
+        except (ValueError, OverflowError):
+            print(f"⚠️ Skipping invalid date: '{clean_item}'")
+            
+    return found_dates
+
 def load_employees(xls: ExcelInput) -> List[Employee]:
     df = pd.read_excel(xls, sheet_name="Employees")
 
