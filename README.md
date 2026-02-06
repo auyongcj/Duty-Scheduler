@@ -39,7 +39,7 @@ The application models the scheduling problem as a constraint satisfaction probl
 
 ### Prerequisites
 
--   Python >=3.8  <=3.12 
+-   Python >=3.8, <=3.12 
 
 ### Installation
 
