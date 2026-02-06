@@ -84,10 +84,8 @@ class RosterSolver:
     # Variables
     # ------------------------------------------------------------------
     def _candidates_for(self, d: date, s: Shift) -> List[Employee]:
-        """Return the pool of employees eligible for this shift on this day
-        (restricted to the pre-selected duty team for that shift type)."""
-        team = self.shift_team_map.get((s, d))
-        return self.team_employees.get(team, []) if team else []
+        """Now returns all employees; eligibility is handled by variable existence."""
+        return self.employees
 
     def _create_variables(self):
         all_teams = set(self.teams)
@@ -116,16 +114,18 @@ class RosterSolver:
     def _add_coverage_constraints(self):
         for d in self.date_range:
             for s in self._get_shifts_for_day(d):
+                # We only pick employees who have a valid variable for this (name, date, shift)
                 relevant = [
                     self.variables[(emp.name, d, s)]
-                    for emp in self._candidates_for(d, s)
+                    for emp in self.employees
                     if (emp.name, d, s) in self.variables
                 ]
+                
                 if relevant:
                     self.model.Add(sum(relevant) == 1)
                 else:
                     self.errors.append(
-                        f"❌ Cannot fill: {d.strftime('%Y-%m-%d')} — {s.value}. No eligible employees."
+                        f"❌ Cannot fill: {d.strftime('%Y-%m-%d')} — {s.value}. No eligible employees found for this team category."
                     )
 
     # ------------------------------------------------------------------
