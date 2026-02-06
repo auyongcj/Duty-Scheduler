@@ -84,7 +84,7 @@ The application requires an Excel file with two specific sheets:
 | :--- | :--- | :--- |
 | **Team** | The employee's team name (e.g., "Blue", "Red"). | `Black` |
 | **Name** | The employee's full name. | `Alex Tan` |
-| **Role** | The employee's role. Used for applying shift caps. | `Standard` | (Note: The roles currently do not have any effect until the role shift limit is set within the application)
+| **Role** | The employee's role. Used for applying shift caps. (Note: The roles currently do not do anything until the role shift limit is set within the application)| `Standard` | 
 | **YTD** | The employee's current Year-To-Date points tally. | `15` |
 | **Blackouts** | Comma-separated list of dates the employee is unavailable. | `2026-01-15, 2026-03-10` |
 | **PH Bids**| Comma-separated list of public holidays the employee wants to work. | `2026-12-25` |
