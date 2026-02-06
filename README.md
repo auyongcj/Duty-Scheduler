@@ -48,7 +48,12 @@ The application models the scheduling problem as a constraint satisfaction probl
     git clone https://github.com/auyongcj/duty-scheduler.git
     cd duty-scheduler
     ```
-
+1.  **Enable venv:**
+    ```bash
+    python -m venv .venv
+    .\.venv\Scripts\Activate
+    cd duty-scheduler
+    ```
 2.  **Install the required dependencies:**
     ```bash
     pip install -r requirements.txt
